@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Drum Kit</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+  
+  tml {
+  font-size: 10px;
+  background: url(http://i.imgur.com/b9r5sEL.jpg) bottom center;
+  background-size: cover;
+}
+body,html {
+  background-image: url(werewolf.jpg);
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.keys {
+  display: flex;
+  flex: 1;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.key {
+  border: .4rem solid rgb(227, 128, 14);
+  border-radius: .5rem;
+  margin: 1rem;
+  font-size: 1.5rem;
+  padding: 1rem .5rem;
+  transition: all .07s ease;
+  width: 10rem;
+  text-align: center;
+  color: white;
+  background-image: url(werewolf2.jpg);
+  text-shadow: 0 0 .5rem black;
+}
+
+.playing {
+  transform: scale(1.1);
+  border-color: #ffc600;
+  box-shadow: 0 0 1rem #ffc600;
+}
+
+kbd {
+  display: block;
+  font-size: 4rem;
+}
+
+.sound {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: .1rem;
+  color: #ffc600;
+}
+  
+  
+  </style>
+</head>
+<body>
+
+
+  <div class="keys">
+    <div data-key="65" class="key">
+      <kbd>A</kbd>
+      <span class="sound">howl</span>
+    </div>
+    <div data-key="83" class="key">
+      <kbd>S</kbd>
+      <span class="sound">howl</span>
+    </div>
+    <div data-key="68" class="key">
+      <kbd>D</kbd>
+      <span class="sound">howl</span>
+    </div>
+    <div data-key="70" class="key">
+      <kbd>F</kbd>
+      <span class="sound">scream</span>
+    </div>
+    <div data-key="71" class="key">
+      <kbd>G</kbd>
+      <span class="sound">scream</span>
+    </div>
+    <div data-key="72" class="key">
+      <kbd>H</kbd>
+      <span class="sound">scream</span>
+    </div>
+    <div data-key="74" class="key">
+      <kbd>J</kbd>
+      <span class="sound">dying</span>
+    </div>
+    <div data-key="75" class="key">
+      <kbd>K</kbd>
+      <span class="sound">dying</span>
+    </div>
+    <div data-key="76" class="key">
+      <kbd>L</kbd>
+      <span class="sound">dying</span>
+    </div>
+  </div>
+
+  <audio data-key="65" src="sounds/werewolf.wav"></audio>
+  <audio data-key="83" src="sounds/werewolf2.wav"></audio>
+  <audio data-key="68" src="sounds/werewolf3.wav"></audio>
+  <audio data-key="70" src="sounds/scream.wav"></audio>
+  <audio data-key="71" src="sounds/scream2.wav"></audio>
+  <audio data-key="72" src="sounds/scream3.wav"></audio>
+  <audio data-key="74" src="sounds/dying.wav"></audio>
+  <audio data-key="75" src="sounds/dying2.wav"></audio>
+  <audio data-key="76" src="sounds/dying3.wav"></audio>
+
+<script>
+  function removeTransition(e) {
+    if (e.propertyName !== 'transform') return;
+    e.target.classList.remove('playing');
+  }
+  function playSound(e) {
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
+    if (!audio) return;
+    key.classList.add('playing');
+    audio.currentTime = 0;
+    audio.play();
+  }
+  const keys = Array.from(document.querySelectorAll('.key'));
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+  window.addEventListener('keydown', playSound);
+</script>
+
+
+</body>
+</html>
